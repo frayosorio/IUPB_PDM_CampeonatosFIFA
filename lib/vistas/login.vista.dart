@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 
 import '../servicios/usuario.servicio.dart';
 
-class Login extends StatefulWidget {
-  const Login({super.key});
+class LoginVista extends StatefulWidget {
+  const LoginVista({super.key});
 
   @override
-  State<Login> createState() => _LoginState();
+  State<LoginVista> createState() => _LoginVistaState();
 }
 
-class _LoginState extends State<Login> {
+class _LoginVistaState extends State<LoginVista> {
   final usuarioController = TextEditingController();
   final claveController = TextEditingController();
   bool cargando = false;
   final servicioUsuario = UsuarioServicio();
 
 
-Future<void> _login() async {
+Future<void> _LoginVista() async {
   setState(() {
     cargando = true;
   });
@@ -29,6 +29,17 @@ Future<void> _login() async {
   setState(() {
     cargando = false;
   });
+
+  if (logueado) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("Inicio de sesión correcto")),
+    );
+    Navigator.pushReplacementNamed(context, "/inicio");
+  } else {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("Usuario o clave incorrectos")),
+    );
+  }
 }
 
   @override
@@ -105,7 +116,7 @@ Future<void> _login() async {
                       width: double.infinity,
                       height: 50,
                       child: ElevatedButton(
-                        onPressed: cargando ? null : _login,
+                        onPressed: cargando ? null : _LoginVista,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue,
                           foregroundColor: Colors.white,
